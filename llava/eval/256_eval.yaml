@@ -1,0 +1,13 @@
+ 
+config:
+   guidance_scale: 4
+   n_steps: 20
+   shift: 5
+   schedule: "shift"
+   alg_temp: 1
+   dynamic_temperature: False
+   min_temperature: 0.5
+   schedule_temp: cosine2
+   temperature: 1.0
+   confidence_policy: mmada
+   micro_cond: "ORIGINAL WIDTH : 1024; ORIGINAL HEIGHT : 1024; TOP : 0; LEFT : 0; SCORE : 6.750"

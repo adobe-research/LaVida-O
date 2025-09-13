@@ -1,0 +1,16 @@
+ 
+config:
+   guidance_scale: 1.2
+   n_steps: 64
+   shift: 5
+   schedule: "shift"
+   alg_temp: 5
+   dynamic_temperature: True
+   min_temperature: 0.5
+   schedule_temp: cosine2
+   temperature: 0.8 
+   confidence_policy: stratified
+   enable_stratified: true
+   edit_mode: 0
+   guidance_scale_image: 1.4
+   micro_cond: "ORIGINAL WIDTH : 1024; ORIGINAL HEIGHT : 1024; TOP : 0; LEFT : 0; SCORE : 6.750"
