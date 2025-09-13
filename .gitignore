@@ -95,6 +95,6 @@ eval_img/gedit/score_dir/.
 eval_img/gedit/score_dir/
 eval_img/imgedit/score_dir
 data/
-assets/
+# assets/
 outputs/
 outputs
