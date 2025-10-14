@@ -1,3 +1,15 @@
+# ADOBE CONFIDENTIAL
+# Copyright 2025 Adobe
+# All Rights Reserved.
+# NOTICE: All information contained herein is, and remains
+# the property of Adobe and its suppliers, if any. The intellectual
+# and technical concepts contained herein are proprietary to Adobe
+# and its suppliers and are protected by all applicable intellectual
+# property laws, including trade secret and copyright laws.
+# Dissemination of this information or reproduction of this material
+# is strictly forbidden unless prior written permission is obtained
+# from Adobe.
+
 stage1_image_search_text_requery_prompt = """You are a helpful assistant. I am giving you a question including an image, which cannot be solved without external knowledge.
 Assume you have access to a search engine (e.g., google). Please raise a query to the search engine to search for what is useful for you to answer the question correctly. You need to consider the characteristics of asking questions to search engines when formulating your questions. 
 You are also provided with the search result of the image in the question. You should leverage the image search result to raise the text query.

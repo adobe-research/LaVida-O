@@ -1,7 +1,7 @@
 
 # Lavida-O: Efficient Scaling of Unified Masked Diffusion Model for Multi-modal Understanding and Generation.
 
-
+[[Paper]](https://arxiv.org/abs/2509.19244) [[Project Site]](https://homepage.jackli.org/projects/lavida_o/index.html) [[Model Weights (To Be Updated)]]
 ![Model Architecture](assets/teaser.png)
 
 ### Installation
@@ -64,3 +64,7 @@ Then, we run
 ```
 bash /sensei-fs-3/users/shufanl/lavida-o-public/eval/run_grounding.sh
 ```
+
+### LICENSE
+
+Both the model and code are licensed with Adobe Research License, which is inclued here [[License.pdf]](License.pdf).
