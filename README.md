@@ -67,4 +67,4 @@ bash /sensei-fs-3/users/shufanl/lavida-o-public/eval/run_grounding.sh
 
 ### LICENSE
 
-Both the model and code are licensed with Adobe Research License, which is inclued here [[License.pdf]](License.pdf).
+Both the model and code are licensed with Adobe Research License, which is included here [[License.pdf]](License.pdf).
