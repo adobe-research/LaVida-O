@@ -576,7 +576,7 @@ class SigLipVisionTower(nn.Module):
         if self.is_loaded:
             rank0_print("{} is already loaded, `load_model` called again, skipping.".format(self.vision_tower_name))
             return
-
+        print(self.vision_tower_name)
         self.vision_tower = SigLipVisionModel.from_pretrained(self.vision_tower_name, device_map=device_map)
 
         del self.vision_tower.vision_model.encoder.layers[-1:]

@@ -43,8 +43,8 @@ import json
 import time
 
 
-ROOT = '/mnt/localssd/refcoco'
-pretrained = "/mnt/localssd/lavida-llada-v1.0-instruct"
+ROOT = 'data/refcoco'
+pretrained = "lavida-llada-v1.0-instruct"
 model_name = "llava_llada"
 conv_template = "llada" 
 vision_kwargs = None

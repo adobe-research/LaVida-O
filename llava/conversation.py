@@ -413,7 +413,7 @@ except:
     conv_llava_llama_3 = None
 
 
-llada_tokenizer = "/mnt/localssd/LLaDA-8B-Instruct"
+llada_tokenizer = "GSAI-ML/LLaDA-8B-Instruct"
 conv_llava_llada = Conversation(
     system="You are a helpful language and vision assistant. " "You are able to understand the visual content that the user provides, " "and assist the user with a variety of tasks using natural language.",
     roles=("user", "assistant"),

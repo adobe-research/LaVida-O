@@ -1,7 +1,7 @@
 
 # Lavida-O: Efficient Scaling of Unified Masked Diffusion Model for Multi-modal Understanding and Generation.
 
-[[Paper]](https://arxiv.org/abs/2509.19244) [[Project Site]](https://homepage.jackli.org/projects/lavida_o/index.html) [[Model Weights (To Be Updated)]]
+[[Paper]](https://arxiv.org/abs/2509.19244) [[Project Site]](https://homepage.jackli.org/projects/lavida_o/index.html) [[Huggingface]](https://huggingface.co/jacklishufan/LaViDa-O-v1.0/tree/main)
 ![Model Architecture](assets/teaser.png)
 
 ### Installation
@@ -13,11 +13,18 @@ pip install -e .[lavida]
 pip install wheel
 MAX_JOBS=32 pip install flash-attn==2.7.4.post1 --no-build-isolation
 pip install jupyter notebook
+pip install -U huggingface_hub[hf_xet] --force-reinstall
 ```
 
 ### Download Checkpoint
 
-Please download checkpoints from (Placeholder Link for checkpoint Huggingface) . 
+Please download checkpoints from [[Huggingface]](https://huggingface.co/jacklishufan/LaViDa-O-v1.0/tree/main). 
+
+You can use the following script to download the checkpoints
+
+```
+python download_checkpoint.py
+```
 
 
 

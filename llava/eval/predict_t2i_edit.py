@@ -42,13 +42,13 @@ from llava.model.utils import maybe_truncate_last_dim,pad_along_last_dim
 from llava.eval.pmj import stratified_random
 from llava.mm_utils import resize_and_center_crop
 def build_model(
-    pretrained = "/mnt/localssd/outputdir/lavida-stage2-llada-gen/checkpoint-72000/",
+    pretrained = "",
     model_name = "llava_llada",
     device = "cuda",
     ):
     print("Loading model...")
     vision_kwargs = dict(
-        mm_vision_tower="/mnt/localssd/siglip-so400m-patch14-384",
+        mm_vision_tower="google/siglip-so400m-patch14-384",
         mm_resampler_type=None,
         mm_projector_type='mlp2x_gelu',
         mm_hidden_size=1152,
@@ -806,62 +806,3 @@ def get_feedback(model,tokenizer,image_processor,caption,image):
     return plan
 
 
-
-
-if __name__ == "__main__":
-    import yaml
-    # pretrained = '/mnt/localssd/outputdir/lavida-stage2-llada-gen-256-fixed/checkpoint-49500'
-    # image_resolution = 256
-    # n_tokens = 256
-    # output_dir = 'demo_outputs/v1-50k-256'
-    pretrained = "/mnt/localssd/outputdir/llavida-stage2-llada-gen-1024-from-200k-v2-cosine-full-continue/checkpoint-100000"
-    # pretrained = "/mnt/localssd/outputdir/lavida-stage2-llada-gen-1024-unitok"
-    image_resolution = 1024
-    n_tokens = 4096
-    # image_resolution = 256
-    output_dir = 'demo_outputs/v1-120k-512'
-
-    guidance_scale = 3
-    n_steps = 48
-    shift=5
-
-    tokenizer, model, image_processor = build_model(pretrained=pretrained)
-    with open('/sensei-fs-3/users/shufanl/LaViDa/llava/eval/1024_eval.yaml', "r") as file:
-        extra_kwargs = yaml.safe_load(file)['config']
-    os.makedirs(output_dir, exist_ok=True)
-
-    guidance_scale = 1.2
-    n_steps = 20
-    shift = 5
-    alg_temp = 5
-    schedule = 'shift'
-    dynamic_temperature = True
-    min_temperature = 1
-    n_tokens_map = {
-            256: 256,
-            512: 1024,
-            1024: 4096
-    }
-    from PIL import Image
-    edit_image =Image.open('images/port.png')
-    
-    gen_dict = dict(tokenizer=tokenizer,
-                        sample_policy='multinomial',
-                        confidence_policy='stratified',
-                        guidance_scale=guidance_scale,
-                        n_steps=n_steps,
-                        batch_size=1,
-                        image_resolution=image_resolution,
-                        n_tokens=n_tokens_map[image_resolution],
-                        shift=shift,
-                        schedule=schedule,
-                        alg_temp=alg_temp,
-                        dynamic_temperature=dynamic_temperature,
-                        min_temperature=min_temperature,
-                        edit_image=edit_image,
-                        image_processor=image_processor,
-                        edit_mode=0,
-                        guidance_scale_image=1.5,
-                        enable_stratified=True
-    )
-    img = text_to_image(model, "add a girl to image",**gen_dict)

@@ -269,7 +269,7 @@ class LlavaMetaModel:
             self.vqvae = build_unitok(config.mm_vqvae)#.to(torch.bfloat16)
             self.image_processor_gen = UnitokImageProcessor()
         else:
-            self.vqvae = VQModel.from_pretrained(config.mm_vqvae)
+            self.vqvae = VQModel.from_pretrained(config.mm_vqvae,subfolder='vqvae')
             vae_scale_factor = 2 ** (len(self.vqvae.config.block_out_channels) - 1)
             self.image_processor_gen = VaeImageProcessor(vae_scale_factor=vae_scale_factor, do_normalize=False)
 
