@@ -1,0 +1,407 @@
+datasets:
+
+  ### HQ T2I
+
+  - name: blip3o-60k
+    json_path: /mnt/localssd/parquet_data/blip3o-60k_with_aes.parquet
+    sampling_strategy: dup:1
+    preprocess_fn: preproces_text_to_image_generation_s3
+    length_group:  blip60k
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2']
+    # aes_cutoff: 5.6 # 1M
+
+  
+  - name: sharegpt4o
+    json_path: /mnt/localssd/parquet_data/ShareGPT-4o-Image-raw_with_aes.parquet
+    sampling_strategy: dup:1
+    preprocess_fn: preproces_text_to_image_generation_s3
+    min_size: 512
+    length_group:  t2i
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2']
+    process_fn_kwargs:
+      caption_key: caption
+      random_truncate: false
+
+  - name: reflect-dit
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded.parquet
+    sampling_strategy: all
+    length_group:  t2i
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2']
+    # aes_cutoff: 5.6
+
+  - name: echo_gpt-0 # ok
+    json_path: /mnt/localssd/parquet_data/echo_gpt_0_t2i.parquet
+    sampling_strategy: dup:2 # 100k
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'hpsv2','fltLaionAesthScore']
+    length_group:  t2i
+
+
+  - name: blip3o-journey
+    json_path: /mnt/localssd/parquet_data/BLIP3o-Pretrain-JourneyDB_with_aes.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2']
+    min_size: 512
+    length_group:  mj
+    aes_cutoff: 5.67
+      
+
+  # LAION COYO
+  - name: coyo-subset
+    json_path: /mnt/localssd/parquet_data/coyo-recap-5_5_dedup.parquet
+    sampling_strategy: all
+    columns: ['longLLA_captions','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    length_group:  laion_coyo
+    # 5M
+  - name: laion-subset2
+    json_path: /mnt/localssd/parquet_data/laion-recap-19M-5_67_dedup-300k.parquet
+    sampling_strategy: all
+    columns: ['llava_next_caption','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    length_group:  laion_coyo
+    process_fn_kwargs:
+      caption_key: llava_next_caption
+      # random_truncate: false
+    # 5M  after filtering
+  - name: laion-subset 
+    json_path: /mnt/localssd/parquet_data/laion-recap-5_67_dedup.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    length_group:  laion_coyo
+    columns: ['longLLA_captions','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+  - name: laion-subset-14m 
+    json_path: /mnt/localssd/parquet_data/laion-hq-14m-remaining-nocap-fl-cap.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    # 14M LAION AESTHETIC
+    length_group:  laion_coyo
+    columns: ['caption','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    process_fn_kwargs:
+      caption_key: caption
+
+
+  - name: sharegpt-4o-edit # ok
+    json_path: /mnt/localssd/parquet_data/sharegpt4o-edit.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: process_sharegpt_4o_edit
+    columns: ['input_prompt', 'input_image','output_image']
+    length_group:  edit
+    process_fn_kwargs:
+      s3_prefix: s3://xiangw-data/Data/ShareGPT-4o-Image/
+
+
+
+
+  - name: vw # ok
+    json_path: /mnt/localssd/und_data/vw_instruct_1_image_9M_flattened.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_vw_instruct
+    columns: ['image', 'conversations']
+    length_group:  und_vw
+    process_fn_kwargs:
+      s3_prefix: s3://shufan-internship-2025/VisualWebInstruct/
+
+  
+  - name: mammoth-s
+    json_path: /mnt/localssd/und_data/mammoth_si_10M_short_9_9M.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_und_mammoth_si_10M
+    columns: ['image', 'conversations']
+    length_group:  und
+    process_fn_kwargs:
+      s3_prefix: s3://shufan-internship-2025/MAmmoTH-VL-Instruct-12M/single_image_data/
+
+
+  - name: mammoth-l
+    json_path: /mnt/localssd/und_data/mammoth_si_10M_long-200k-flattened.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_und_mammoth_si_10M
+    columns: ['image', 'conversations']
+    length_group:  und
+    process_fn_kwargs:
+      s3_prefix: s3://shufan-internship-2025/MAmmoTH-VL-Instruct-12M/single_image_data/
+
+  - name: omniedit
+    json_path: /mnt/localssd/parquet_data/omni-edit-gpt.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit
+    columns: ['input_paths', 'output_paths','instruction']
+    length_group:  edit_gpt
+
+  - name: hqedit
+    json_path: /mnt/localssd/parquet_data/hq-edit-gpt.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit
+    columns: ['input_paths', 'output_paths','instruction']
+    length_group:  edit_gpt
+
+
+  - name: ultraedit
+    json_path: /mnt/localssd/parquet_data/ultra-edit-gpt.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit
+    columns: ['input_paths', 'output_paths','instruction']
+    length_group:  edit_gpt
+
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-flickr-148166.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-openpsg-27786.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-refcocog-19327.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: refcoco
+    json_path: /mnt/localssd/und_data/grounding_refcoco-unc_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+  - name: refcoco+
+    json_path: /mnt/localssd/und_data/grounding_refcocoplus-unc_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+  - name: refcocog
+    json_path: /mnt/localssd/und_data/grounding_refcocog-umd_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+  - name: reflect-dit-reason
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_t2i # 50K
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_text
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      plan_only: true
+
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded-self-correct.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_feedback_text
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text','negatives','negative_reasons']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      plan_only: true
+      s3_prefix_enc: s3://shufan-internship-2025/reflect-dit-train-images/
+      add_feedback: true
+      do_print: false
+
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded-self-correct.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_feedback_t2i
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text','negatives','negative_reasons']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      s3_prefix_enc: s3://shufan-internship-2025/reflect-dit-train-images/
+      add_feedback: true
+      do_print: false
+
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/reflect-dit-grounded-self-correct.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_feedback_t2i
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text','negatives','negative_reasons']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      s3_prefix_enc: s3://shufan-internship-2025/reflect-dit-train-images/
+      add_feedback: true
+      do_print: false
+      no_plan: true
+    
+  - name: reflect-dit-reason-judge
+    json_path: /mnt/localssd/parquet_data/reflect-dit-und.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_judge
+    preprocess_fn: preprocess_reflection_und
+    sampling_strategy: all
+    columns: ['image', 'prompts','results']
+    process_fn_kwargs:
+      s3_prefix: s3://shufan-internship-2025/reflect-dit-train-images/
+
+
+  - name: reflect-dit-reason
+    json_path: /mnt/localssd/parquet_data/blip3o-60k-aes-gnd-reason.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_t2i # 50K
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/blip3o-60k-aes-gnd-reason.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_text
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      plan_only: true
+
+
+  - name: reflect-dit-reason
+    json_path: /mnt/localssd/parquet_data/sharegpt-4o-image-aes-gnd-reason-square.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_t2i # 50K
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+
+  - name: reflect-dit-reason-text
+    json_path: /mnt/localssd/parquet_data/sharegpt-4o-image-aes-gnd-reason-square.parquet
+    sampling_strategy: all
+    length_group:  reflect_dit_plan_text
+    preprocess_fn: preproces_text_to_image_generation_s3_loc
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth','hpsv2','grounding_text']
+    # aes_cutoff: 5.6
+    process_fn_kwargs: # 50K
+      plan_only: true
+
+
+  - name: omniedit-reason-add
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-add.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason
+    process_fn_kwargs: # 50K
+      plan_only: false
+      task: "add"
+
+  - name: omniedit-reason-remove
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-remove.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason
+    process_fn_kwargs: # 50K
+      plan_only: false
+      task: "remove"
+
+  - name: omniedit-reason-swap
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-swap.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason
+    process_fn_kwargs: # 50K
+      plan_only: false
+      task: "swap"
+
+
+  - name: omniedit-reason-add-txt
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-add.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason_txt
+    process_fn_kwargs: # 50K
+      plan_only: true
+      task: "add"
+
+  - name: omniedit-reason-remove-txt
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-remove.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason_txt
+    process_fn_kwargs: # 50K
+      plan_only: true
+      task: "remove"
+
+  - name: omniedit-reason-swap-txt
+    json_path: /mnt/localssd/parquet_data/omniedit-reason-swap.parquet
+    sampling_strategy: all
+    preprocess_fn: process_gpt_edit_loc_gnd
+    columns: ['input_paths', 'output_paths','instruction','grounding_text']
+    length_group:  edit_gpt_reason_txt
+    process_fn_kwargs: # 50K
+      plan_only: true
+      task: "swap"
+
+
+
+
+weights:
+  t2i: 250 
+  blip60k: 80
+  mj: 100
+  mjv6: 20
+  laion_coyo: 150
+  edit: 200
+  edit_gpt: 250 # reason-edit 350
+  picabanana: 150
+  edit_gpt_reason_txt: 30
+  edit_gpt_reason: 170 
+  und: 250 #
+  grounding: 100
+  und_vw: 150
+  reflect_dit_judge: 150
+  # reason generation
+  reflect_dit_plan_t2i: 200
+  reflect_dit_plan_text: 20
+  reflect_dit_plan_feedback_text: 20
+  reflect_dit_plan_feedback_t2i: 150
+  reflect_dit_feedback_t2i: 30
+
+
+batch_sizes:
+  t2i: 1
+  mj: 1
+  edit: 1
+  blip60k: 1
+  edit_gpt: 1
+  edit_gpt: 1
+  edit_gpt_reason_txt: 1
+  edit_gpt_reason: 0.5 
+  und: 0.5
+  grounding: 0.5
+  reflect_dit_judge: 1
+  reflect_dit_plan_t2i: 1
+  reflect_dit_plan_text: 1
+  reflect_dit_plan_feedback_text: 0.5
+  reflect_dit_plan_feedback_t2i: 0.5
+  reflect_dit_feedback_t2i:  0.5

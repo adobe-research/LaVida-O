@@ -1,0 +1,67 @@
+datasets:
+  # BLIP 3O
+  - name: blip3o-journeydb
+    json_path: /mnt/localssd/parquet_data/BLIP3o-Pretrain-JourneyDB_with_aes.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth']
+    min_size: 512
+    aes_cutoff: 5.67
+
+
+  - name: blip3o-long-cap
+    json_path: /mnt/localssd/parquet_data/BLIP3o-Pretrain-Long-Caption-new_with_aes.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth']
+    aes_cutoff: 5.67
+    min_size: 512
+
+  - name: blip3o-60k
+    json_path: /mnt/localssd/parquet_data/blip3o-60k_with_aes.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth']
+    # aes_cutoff: 5.6 # 1M
+  
+  # COYO
+  - name: coyo-700m
+    json_path: /mnt/localssd/parquet_data/coyo-recap-5_5_dedup.parquet
+    sampling_strategy: all
+    columns: ['longLLA_captions','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+
+  # LAION
+  - name: laion-2b
+    json_path: /mnt/localssd/parquet_data/laion-recap-19M-5_67_dedup-300k.parquet
+    sampling_strategy: all
+    columns: ['llava_next_caption','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    process_fn_kwargs:
+      caption_key: llava_next_caption
+
+  - name: laion-2b-2
+    json_path: /mnt/localssd/parquet_data/laion-recap-5_67_dedup.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    # 7M after filtering
+    columns: ['longLLA_captions','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+  
+  - name: laion-2b-3
+    json_path: /mnt/localssd/parquet_data/laion-hq-14m-remaining-nocap-fl-cap.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_piat_hash
+    min_size: 512
+    columns: ['caption','fltLaionAesthScore','strImagehash','intHeight','intWidth']
+    process_fn_kwargs:
+      caption_key: caption
+
+  # Reflect-DiT (not interleaved)
+  - name: reflect-dit
+    json_path: /mnt/localssd/parquet_data/reflect-dit-train-images-60k_with_aesthetic.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_text_to_image_generation_s3
+    columns: ['s3_path', 'caption', 'fltLaionAesthScore','intHeight','intWidth']

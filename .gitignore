@@ -94,7 +94,9 @@ eval_img/gedit/score_dir/.
 **/__pycache__
 eval_img/gedit/score_dir/
 eval_img/imgedit/score_dir
-data/
+data/imageedit
+data/und_data
+data/coco2014
 # assets/
 outputs/
 outputs

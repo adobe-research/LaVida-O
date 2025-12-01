@@ -177,6 +177,8 @@ def text_to_image(model,
     plan=None,
     feedback_imgs=None,
     feedback_texts=None,
+    *args,
+    **kwargs
 ):
     if shift_alg is None:
         shift_alg = shift

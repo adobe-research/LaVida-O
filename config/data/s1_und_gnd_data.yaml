@@ -1,0 +1,56 @@
+datasets:
+  - name: mammoth
+    json_path: /mnt/localssd/und_data/mammoth_si_10M.parquet
+    sampling_strategy: all
+    preprocess_fn: preproces_und_mammoth_si_10M
+    columns: ['image', 'conversations']
+    process_fn_kwargs:
+      s3_prefix: s3://shufan-internship-2025/MAmmoTH-VL-Instruct-12M/single_image_data/
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-flickr-148166.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-openpsg-27786.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: grand-f
+    json_path: /mnt/localssd/und_data/grand-refcocog-19327.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_grandf
+    length_group:  grounding
+    columns: ['s3_path', 'loc_caption']
+
+  - name: refcoco
+    json_path: /mnt/localssd/und_data/grounding_refcoco-unc_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+  - name: refcoco+
+    json_path: /mnt/localssd/und_data/grounding_refcocoplus-unc_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+  - name: refcocog
+    json_path: /mnt/localssd/und_data/grounding_refcocog-umd_train.parquet
+    sampling_strategy: dup:3
+    preprocess_fn: preproces_refcoco_rec
+    columns: ['s3_path', 'label','loc_string']
+    length_group:  grounding
+
+
+# need to manually adjust, from grounding> default to default > grounding
+weights:
+  default: 100
+  grounding: 100
