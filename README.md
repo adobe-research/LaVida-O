@@ -4,6 +4,11 @@
 [[Paper]](https://arxiv.org/abs/2509.19244) [[Project Site]](https://homepage.jackli.org/projects/lavida_o/index.html) [[Huggingface]](https://huggingface.co/jacklishufan/LaViDa-O-v1.0/tree/main)
 ![Model Architecture](assets/teaser.png)
 
+
+### News
+
+**Dec 1**: We released training code.
+
 ### Installation
 
 ```
@@ -71,6 +76,11 @@ Then, we run
 ```
 bash /sensei-fs-3/users/shufanl/lavida-o-public/eval/run_grounding.sh
 ```
+
+
+### Training
+
+See [Training Readme](/scripts/train/readme.MD)
 
 ### LICENSE
 
